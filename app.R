@@ -15,21 +15,16 @@ ui <- fluidPage(
   
   # Application title
   titlePanel("Concentration Planning:"),
-  titlePanel("with either start and ending concentration"),
-  titlePanel("or constant multiplicative factor."),
+  "with either start and ending concentration or constant multiplicative factor.",
   
   # Sidebar with a slider input for number of bins, starting concentration, and ending concentration
   sidebarLayout(
     sidebarPanel(
-      checkboxInput("checkbox", label = "Known Ending Concentration", value = TRUE),
-      sliderInput("numT",
-                  "Number of Treatments:",
-                  min = 1,
-                  max = 20,
-                  value = 5),
-      numericInput("startconc", label=h3("Starting Concentration"), value=0.05),
-      numericInput("endconc", label=h3("Ending Concentration"), value=0.5),
-      numericInput("changefactor", label = h3("Change Factor"), value = exp(1))
+      checkboxInput("checkbox", label=h5("Known Ending Concentration"), value = TRUE),
+      sliderInput("numT",label=h5("Number of Treatments:"),min = 1,max = 20,value = 5),
+      numericInput("startconc", label=h5("Starting Concentration"), value=0.05),
+      numericInput("endconc", label=h5("Ending Concentration"), value=0.5),
+      numericInput("changefactor", label = h5("Change Factor"), value = exp(1))
     ),
     
     # Show a plot of the generated concentrations across bio effect of 100% across number of treatments
@@ -52,7 +47,7 @@ server <- function(input, output) {
       vect[i] <- vect[i-1]*multiplier
     }
     #vect
-    plot(vect,c(seq(1,0,length.out=input$numT)), log="x", type="b", pch=NA, xlab="log visualize concentration", ylab="effect")
+    plot(vect,c(seq(1,0,length.out=input$numT)), log="x", type="b", pch=NA, xlab="log visualized concentration", ylab="effect")
     text(vect,c(seq(1,0,length.out=input$numT)),round(vect,3))
     text((max(vect)*0.5), 0.8, bquote(paste("Factor: ",.(round(multiplier,3)))))
     text((max(vect)*0.5), 0.7, "OECD max = 3.2")
@@ -67,7 +62,7 @@ server <- function(input, output) {
       df$ID <- as.numeric(row.names(df))-1
       df$treat <- df$treatstart*(df$factor^df$ID)
       #df
-      plot(1,1,pch=NA, ylim=c(0,1),xlim=c(min(df$treat),max(df$treat)),xlab="log visualized conc",ylab="effect",log="x")
+      plot(1,1,pch=NA, ylim=c(0,1),xlim=c(min(df$treat),max(df$treat)),xlab="log visualized concentration",ylab="effect",log="x")
       points(effmag~treat, data=df, pch=NA, type="b")
       text(effmag~treat, data=df, bquote(.(round(df$treat,3))))
     }
