@@ -49,8 +49,8 @@ server <- function(input, output) {
     #vect
     plot(vect,c(seq(1,0,length.out=input$numT)), log="x", type="b", pch=NA, xlab="log visualized concentration", ylab="effect")
     text(vect,c(seq(1,0,length.out=input$numT)),round(vect,3))
-    text((max(vect)*0.5), 0.8, bquote(paste("Factor: ",.(round(multiplier,3)))))
-    text((max(vect)*0.5), 0.7, "OECD max = 3.2")
+    text(vect[4], 0.8, bquote(paste("Factor: ",.(round(multiplier,3)))))
+    text(vect[4], 0.7, "OECD max = 3.2")
     } else {
       numtreats <- input$numT
       startinglow <- input$startconc
